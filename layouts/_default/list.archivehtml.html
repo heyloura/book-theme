@@ -23,7 +23,7 @@
                     <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
                         {{ .Date.Format "02 Jan 2006" }}
                     </time>
-                    {{ .Content | safeHTML | strings.Truncate 600 }}
+                    {{ .Content | safeHTML | strings.Truncate 300 }}
                 </div>
             {{ else }}
                 <div>

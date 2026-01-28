@@ -27,7 +27,7 @@
                         {{ .Date.Format "02 Jan 2006" }}
                     </time>
                 </div>
-                {{ .Content }}
+                {{ .Content | safeHTML | strings.Truncate 300 }}
             {{ else }}
                 <div>
                     <h1 class="p-name">
