@@ -74,6 +74,12 @@
         .hide-sm-block,.hide-sm-flex  {
             display: none !important;
         }
+        .read-more{
+            background: rgba(255, 230, 0, 0.6);
+            padding: 3px 6px;
+            border-radius: 3px;
+            line-height: 1.5;
+        }
         @media screen and (min-width: 1023px) 
         {
             body {
@@ -600,11 +606,19 @@
                 <div class="page">
                     <div class="front cover">
                     <h1>{{ if .Title }}{{ strings.FirstUpper .Title }}{{else}}Hey Loura{{ end }}</h1>
-                    <p>2026.<br>Fourth edition</p>
+                    <p>© {{ dateFormat "2006" now }} heyloura.com</p>
                     </div>
                     <div class="back">
+                    <p>
+                        All rights reserved.    <br/>
+                        <a href="https://heyloura.com/feeds">RSS</a><br/> 
+                        <a href="https://tinylytics.app/public/k8W9_T_FtwGM-5zeSNC7"><span class="tinylytics_hits"></span> tinylytics</a>   <br/>
+                        <a href="https://xn--sr8hvo.ws/%F0%9F%91%8D%F0%9F%93%8A%F0%9F%92%85/previous">←</a>
+                        <a href="https://xn--sr8hvo.ws">🕸️💍</a> 
+                        <a href="https://xn--sr8hvo.ws/%F0%9F%91%8D%F0%9F%93%8A%F0%9F%92%85/next">→</a>
+                    </p>
                     <h2>Credits</h2>
-                    <p>https://codepen.io/rokobuljan/pen/jORNEyz</p>
+                    <p>Page flip adapted from code by Roko C. Buljan, <a href="https://codepen.io/rokobuljan/pen/jORNEyz">@rokobuljan</a></p>
                     </div>
                 </div>
                 ${book}
