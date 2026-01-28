@@ -1,23 +1,21 @@
 {{ define "main" }}
 <nav class="hide-sm-flex top-left">
     <p><b>Blog Editions</b></p>
+    {{ $posts := where .Site.RegularPages "Section" "posts" }}
+    {{ $years := $posts.GroupByDate "2006" }}
+    {{ range $years }}
+        <a href="archive#{{ .Key }}">{{ .Key }}</a>
+    {{ end }}
 </nav>
 <section class="h-feed">
     {{ $grouped := .Site.Pages.GroupByDate "2006" }}
     {{ $paginated := .Paginate $grouped 1 }}
     {{ range $paginated.PageGroups }}
-    <h2>{{ .Key }}</h2>  {{/* This will be the year */}}
     <ul style="display:none">
         {{ range .Pages }}
         <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
         {{ end }}
     </ul>
-    {{ end }}
-    {{ if $paginated.HasPrev }}
-    <a href="{{ $paginated.Prev.URL }}">Previous Year</a>
-    {{ end }}
-    {{ if $paginated.HasNext }}
-    <a href="{{ $paginated.Next.URL }}">Next Year</a>
     {{ end }}
 </section>
 {{ end }}
