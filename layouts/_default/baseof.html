@@ -453,12 +453,12 @@
             <div class="page">
                 <div class="front">
                     <div class="grid">
-                        {{front}}
+                        ^^front^^
                     </div>
                 </div>
                 <div class="back">
                     <div class="grid">
-                        {{back}}
+                        ^^back^^
                     </div>
                 </div>
             </div>
@@ -476,7 +476,7 @@
                 {
                     // add it, but next thing is on back page
                     // currentHeight += el.scrollHeight;
-                    // currentPage = currentPage.replace('{{front}}', el.outerHTML + '{{front}}');
+                    // currentPage = currentPage.replace('^^front^^', el.outerHTML + '^^front^^');
                     // front = false;
                     // back = true;
                     // currentHeight = 0;
@@ -494,7 +494,7 @@
                 } else if(currentHeight + el.scrollHeight <= size) {
                     // add it
                     currentHeight += el.scrollHeight;
-                    currentPage = currentPage.replace('{{front}}', el.outerHTML + '{{front}}');
+                    currentPage = currentPage.replace('^^front^^', el.outerHTML + '^^front^^');
                     return;
                 } else {
                     // this is too big, add it to the back page
@@ -511,8 +511,8 @@
                 //     front = true;
                 //     back = false;
                 //     currentHeight = 0;
-                //     currentPage = currentPage.replace('{{back}}', el.outerHTML + '{{back}}');
-                //     book += currentPage.replace('{{front}}', '').replace('{{back}}', '');
+                //     currentPage = currentPage.replace('^^back^^', el.outerHTML + '^^back^^');
+                //     book += currentPage.replace('^^front^^', '').replace('^^back^^', '');
                 //     currentPage = pageTemplate;
                 //     return;
                 // }
@@ -523,13 +523,13 @@
                         front = true;
                         back = false;
                         currentHeight = el.scrollHeight;
-                        book += currentPage.replace('{{front}}', '').replace('{{back}}', '');
-                        currentPage = pageTemplate.replace('{{front}}', el.outerHTML + '{{front}}');
+                        book += currentPage.replace('^^front^^', '').replace('^^back^^', '');
+                        currentPage = pageTemplate.replace('^^front^^', el.outerHTML + '^^front^^');
                         return;
                     } else {
                         // add it
                         currentHeight += el.scrollHeight;
-                        currentPage = currentPage.replace('{{back}}', el.outerHTML + '{{back}}');
+                        currentPage = currentPage.replace('^^back^^', el.outerHTML + '^^back^^');
                         return;
                     }
                 } else {
@@ -538,8 +538,8 @@
                         front = true;
                         back = false;
                         currentHeight = el.scrollHeight;
-                        book += currentPage.replace('{{front}}', '').replace('{{back}}', '');
-                        currentPage = pageTemplate.replace('{{front}}', el.outerHTML + '{{front}}');
+                        book += currentPage.replace('^^front^^', '').replace('^^back^^', '');
+                        currentPage = pageTemplate.replace('^^front^^', el.outerHTML + '^^front^^');
                         return;
                     }
                     else {
