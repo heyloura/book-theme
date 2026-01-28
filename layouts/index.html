@@ -12,19 +12,16 @@
     {{ end }}
 </nav>
 <section class="h-feed">
-    {{ $withDate := where $posts "Date" "!=" nil }}
-    {{ $sorted := sort $withDate "Date" "desc" }}
-    {{ if $sorted }}
-        {{ $postsThisYear := where $sorted "Date.Format \"2006\"" "eq" $mostRecentYear }}
-        {{ range $postsThisYear }}
-            <article class="h-entry">
-                <h1 class="p-name"><a class="u-url" href="{{ .Permalink }}">{{ if .Title }}{{ .Title }}{{ else }}{{ .Date.Format "2 Jan 06" }}{{ end }}</a></h1>
-                <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
-                    {{ .Date.Format "02 Jan 2006" }}
-                </time>
-                {{ .Content }}
-            </article>
-        {{ end }}
+    {{ $mostRecentYear }}
+    {{ $postsThisYear := where $posts "Date.Format \"2006\"" "eq" $mostRecentYear }}
+    {{ range $postsThisYear }}
+        <article class="h-entry">
+            <h1 class="p-name"><a class="u-url" href="{{ .Permalink }}">{{ if .Title }}{{ .Title }}{{ else }}{{ .Date.Format "2 Jan 06" }}{{ end }}</a></h1>
+            <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
+                {{ .Date.Format "02 Jan 2006" }}
+            </time>
+            {{ .Content }}
+        </article>
     {{ end }}
 </section>
 {{ end }}
