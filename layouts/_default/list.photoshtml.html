@@ -1,6 +1,6 @@
 {{ define "main" }}
 <section class="h-feed">
-    {{- $list := where .Site.Pages ".Params.photos" "!=" nil -}}
+    {{- $list := where .Site.Pages.ByDate.Reverse ".Params.photos" "!=" nil -}}
 	{{ range $index, $value := $list }}
         {{ if eq $index 0 }}
             {{ range first 1 .Params.photos }}
