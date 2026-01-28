@@ -1,7 +1,6 @@
 {{ define "main" }}
 <section class="h-feed">
     {{- $list := where .Site.Pages ".Params.photos" "!=" nil -}}
-	{{- $len := (len $list) -}}
 	{{ range $index, $value := $list }}
         {{ if eq $index 0 }}
             {{ range first 1 .Params.photos }}

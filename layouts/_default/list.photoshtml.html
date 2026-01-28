@@ -1,6 +1,19 @@
 {{ define "main" }}
 <section class="h-feed">
     {{- $list := where .Site.Pages ".Params.photos" "!=" nil -}}
+	{{ range $index, $value := $list }}
+        {{ if eq $index 0 }}
+            {{ range first 1 .Params.photos }}
+            <style>
+                .cover {
+                    background: radial-gradient(circle farthest-corner at 80% 20%, hsl(150 80% 20% / .3) 0%, hsl(170 60% 10% / .1) 100%),
+                        hsl(231, 32%, 29%) url("{{ . }}") 50% / cover;
+                }
+            </style>
+            {{ end }}
+        {{ end }}
+	{{ end }}
+    {{- $list := where .Site.Pages ".Params.photos" "!=" nil -}}
 	{{- $len := (len $list) -}}
 	{{ range $index, $value := $list }}
        <article class="h-entry {{ .Date.Format "2006" }}">
