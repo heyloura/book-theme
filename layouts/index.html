@@ -8,7 +8,7 @@
     {{ end }}
 </nav>
 <section class="h-feed">
-    {{ $grouped := (.Site.Pages "Type" "post").GroupByDate "2006" }}
+    {{ $grouped := $posts.GroupByDate "2006" }}
     {{ $paginated := .Paginate $grouped 1 }}
     {{ range $paginated.PageGroups }}
         {{ range .Pages }}
