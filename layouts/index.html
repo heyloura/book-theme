@@ -1,47 +1,15 @@
 {{ define "main" }}
 <nav class="hide-sm-flex top-left">
-    <!-- <p>
-        <a href="/photos">Photos</a><span aria-hidden="true"> |</span>
-        <a href="/search-space">Search</a><span aria-hidden="true"> |</span>
-        <a href="/archive">Archive</a>
-    </p> -->
     <p><b>Blog Editions</b></p>
 </nav>
 <section class="h-feed">
-    {{ $currentYear := now.Format "2006" }}
-    {{ $allPosts := .Site.Pages }}
-    {{ $sortedPosts := sort $allPosts "Date" "desc" }}
-
-    {{ $currentYearPosts := where $sortedPosts "Date.Format \"2006\"" "eq" $currentYear }}
-    {{ if $currentYearPosts }}
-        <h2>{{ $currentYear }}</h2>
-        <ul>
-        {{ range $currentYearPosts }}
-            <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
-        {{ end }}
-        </ul>
-    {{ end }}
-
-    <!-- Paginate older posts by year -->
-    {{ $olderPosts := where $sortedPosts "Date.Format \"2006\"" "lt" $currentYear }}
-    {{ $grouped := $olderPosts.GroupByDate "2006" }}
-    {{ $paginated := (.Paginate ($olderPosts.GroupByDate "2006")).PageGroups 1 }} <!-- One year per page -->
-
-    {{ range $paginated }}
-        <h2>{{ .Key }}</h2>
-        <ul>
+    {{ range (.Paginate (.Site.Pages.GroupByDate "2006")).PageGroups }}
+    <h2>{{ .Key }}</h2>  {{/* This will be the year */}}
+    <ul>
         {{ range .Pages }}
-            <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+        <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
         {{ end }}
-        </ul>
-    {{ end }}
-
-    <!-- Pagination Controls -->
-    {{ if .Paginator.HasPrev }}
-        <a href="{{ .Paginator.Prev.URL }}">Previous Year</a>
-    {{ end }}
-    {{ if .Paginator.HasNext }}
-        <a href="{{ .Paginator.Next.URL }}">Next Year</a>
+    </ul>
     {{ end }}
 </section>
 {{ end }}
