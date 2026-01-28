@@ -3,17 +3,17 @@
     <p><b>Blog Editions</b></p>
     {{ $posts := where .Site.Pages "Type" "post" }}
     {{ $years := $posts.GroupByDate "2006" }}
-    {{ $mostRecentYear := 0 }}
+    {{ $.Scratch.Set "mostRecentYear" 0 }}
     {{ range $index, $element := $years }}
         {{ if eq $index 0 }}
-            {{ $mostRecentYear := $element.Key }}
+            {{ $.Scratch.Set "mostRecentYear" $element.Key }}
         {{ end }}
         <a href="archive#{{ $element.Key }}">{{ $element.Key }}</a>
     {{ end }}
 </nav>
 <section class="h-feed">
-    {{ $mostRecentYear }}
-    {{ $postsThisYear := where $posts "Date.Format \"2006\"" "eq" $mostRecentYear }}
+    {{ $.Scratch.Set "mostRecentYear" }}
+    {{ $postsThisYear := where $posts "Date.Format \"2006\"" "eq" ($.Scratch.Set "mostRecentYear") }}
     {{ range $postsThisYear }}
         <article class="h-entry">
             <h1 class="p-name"><a class="u-url" href="{{ .Permalink }}">{{ if .Title }}{{ .Title }}{{ else }}{{ .Date.Format "2 Jan 06" }}{{ end }}</a></h1>
