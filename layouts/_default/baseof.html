@@ -549,6 +549,8 @@
             }
         };
 
+        const searchParams = new URLSearchParams(window.location.search);
+        let year = searchParams.get("year")
         document.querySelectorAll("article").forEach(a => {
             if(currentPage != pageTemplate && front) {
                 front = false;
@@ -561,7 +563,13 @@
                 back = false;
                 currentHeight = 0;
             }
-            a.querySelectorAll(":scope > *").forEach(makePages);
+            if(year) {
+                if(a.classList.contains(year)) {
+                    a.querySelectorAll(":scope > *").forEach(makePages);
+                }
+            } else {
+                a.querySelectorAll(":scope > *").forEach(makePages);
+            }
         });
         
         document.querySelectorAll("article > *").forEach(el => el.remove());

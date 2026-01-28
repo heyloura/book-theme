@@ -13,8 +13,7 @@
 </nav>
 <section class="h-feed">
     {{ range where .Site.Pages "Type" "post" }}
-        {{ if eq (.Date.Format "2006") ($.Scratch.Get "mostRecentYear") }}
-        <article class="h-entry">
+       <article class="h-entry {{ .Date.Format "2006" }}">
             {{ if .Title }}
                 <div>
                     <h1 class="p-name">
@@ -37,7 +36,6 @@
             {{ end }}
             {{ .Content }}
         </article>
-        {{ end }}
     {{ end }}
 </section>
 {{ end }}
