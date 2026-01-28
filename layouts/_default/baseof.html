@@ -548,15 +548,23 @@
                 }
             }
         };
+
+        document.querySelectorAll("article").forEach(a => {
+            currentPage = pageTemplate;
+            front = true;
+            back = false;
+            currentHeight = 0;
+            a.querySelectorAll(":scope > *").forEach(makePages);
+        });
         
-        document.querySelectorAll("article > *").forEach(makePages);
+        //document.querySelectorAll("article > *").forEach(makePages);
         document.querySelectorAll("article > *").forEach(el => el.remove());
         document.querySelectorAll("article").forEach(el => el.remove());
         document.body.insertAdjacentHTML('beforeend',`
             <div class="book">
                 <div class="page">
                     <div class="front cover">
-                    <h1>{{ if .Title }} <span aria-hidden="true"> |</span> {{ strings.FirstUpper .Title }}{{ end }}</h1>
+                    <h1>{{ if .Title }}{{ strings.FirstUpper .Title }}{{else}}Hey Loura{{ end }}</h1>
                     <p>2026.<br>Fourth edition</p>
                     </div>
                     <div class="back">
