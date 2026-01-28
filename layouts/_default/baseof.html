@@ -618,7 +618,7 @@
         document.querySelectorAll("article").forEach(el => el.remove());
         document.body.insertAdjacentHTML('beforeend',`
             <div class="flip-book">
-                <div class="page hide-sm-block">
+                <div class="page hide-sm-flex">
                     <div class="front cover">
                     <h1>{{ if .Title }}{{ strings.FirstUpper .Title }}{{else}}Hey Loura{{ end }}</h1>
                     <p>© {{ dateFormat "2006" now }} heyloura.com</p>

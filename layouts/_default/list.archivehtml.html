@@ -13,7 +13,7 @@
             {{ end }}
         {{ end }}
 	{{ end }}
-    {{ range where .Site.Pages.ByDate.Reverse "Type" "post" }}
+    {{ range sort (where .Site.Pages "Type" "post") "Date" "asc" }}
        <article class="h-entry {{ .Date.Format "2006" }}">
             {{ if .Title }}
                 <div class="post">

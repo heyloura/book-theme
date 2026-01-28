@@ -15,7 +15,7 @@
 	{{ end }}
     {{- $list := where .Site.Pages ".Params.photos" "!=" nil -}}
 	{{- $len := (len $list) -}}
-	{{ range $index, $value := $list }}
+	{{ range $index, $value := sort $list "Date" "asc" }}
        <article class="h-entry {{ .Date.Format "2006" }}">
             {{ if .Title }}
                 <div class="post">
