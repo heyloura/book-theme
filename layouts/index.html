@@ -1,16 +1,4 @@
 {{ define "main" }}
-<nav class="hide-sm-flex top-left">
-    <p><b>Blog Editions</b></p>
-    {{ $posts := where .Site.Pages "Type" "post" }}
-    {{ $years := $posts.GroupByDate "2006" }}
-    {{ $.Scratch.Set "mostRecentYear" 0 }}
-    {{ range $index, $element := $years }}
-        {{ if eq $index 0 }}
-            {{ $.Scratch.Set "mostRecentYear" $element.Key }}
-        {{ end }}
-        <a href="archive?year={{ $element.Key }}">{{ $element.Key }}</a>
-    {{ end }}
-</nav>
 <section class="h-feed">
     {{ range where .Site.Pages "Type" "post" }}
         {{ if eq (.Date.Format "2006") ($.Scratch.Get "mostRecentYear") }}
