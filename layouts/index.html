@@ -14,13 +14,12 @@
 </nav>
 <section class="h-feed">
 	{{ $list := (where .Site.Pages.ByDate.Reverse "Type" "post") }}
-	{{range $list}}
-		{{ if .Title }}
-			<article class="h-entry">
-				<time class="dt-published" datetime="{{ .Date.Format "2006-01-02 15:04:05 -0700" }}">{{ .Date.Format "2006-01-02" }}</time>: <a href="{{ .Permalink }}" class="u-url p-name">{{ .Title }}</a>
-            </article>
-		{{ else }}
-		{{ end }}
+	{{ range (.Paginate (.Site.Pages.GroupByDate "2006")).PageGroups  }}
+        <article class="h-entry">
+            {{ if .Title }}{{.Title}}{{end}}
+			<time class="dt-published" datetime="{{ .Date.Format "2006-01-02 15:04:05 -0700" }}">{{ .Date.Format "2006-01-02" }}</time>: <a href="{{ .Permalink }}" class="u-url p-name">{{ if .Title }}{{.Title}}{{else}}{{ .Date.Format "2006-01-02" }}{{end}}</a>
+            {{.Content}}
+        </article>
 	{{ end }}
 </section>
 {{ end }}
