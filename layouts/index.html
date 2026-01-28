@@ -6,11 +6,9 @@
         <a href="/archive">Archive</a>
     </p> -->
     <p><b>Blog Editions</b></p>
-    <a href="#">2026</a>
-    <a href="#">2025</a>
-    <a href="#">2024</a>
-    <a href="#">2023</a>
-    <a href="#">2022</a>
+    {{ range (.Site.Pages.GroupByDate "2006").PageGroups  }}
+        <a href="#">{{.Key}}</a>
+    {{end}}
 </nav>
 <section class="h-feed">
 	{{ $list := (where .Site.Pages.ByDate.Reverse "Type" "post") }}
