@@ -368,11 +368,11 @@
             background-size: var(--grid-unit) var(--grid-unit);
             background-position: calc(var(--grid-unit) / 2) calc(var(--grid-unit) / 2);
             height: min(550px, 80vh);
-            max-height: min(550px, 80vh);
+            max-height: min(550px, 75vh);
             overflow: hidden;
         }
         ol, ul {
-            max-height: min(550px, 80vh);
+            max-height: min(550px, 75vh);
             overflow: hidden;
         }
         .front > div > p:last-child, .back > div > p:last-child {
@@ -631,18 +631,18 @@
                 @media screen and (min-width: 1023px) 
                 {
                     .highlight, .highlight > pre, .highlight > pre > code {
-                        max-height: min(525px, 80vh) !important;
+                        max-height: min(550px, 75vh) !important;
                     }
                     .highlight > pre, .highlight > pre > code {
                         overflow: auto;
-                        max-height: min(525px, 80vh) !important;
+                        max-height: min(550px, 75vh)) !important;
                         max-width: min(450px, 100%)!important;
                     }
                     img, video {    
                         height: unset;
                         width: 100%;
                         max-width: min(450px, 100%);
-                        max-height: min(525px, 80vh);
+                        max-height: min(550px, 75vh);
                         display: block;
                         margin: 0px auto;
                     }
