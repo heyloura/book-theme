@@ -3,7 +3,7 @@
     <p><b>Blog Editions</b></p>
 </nav>
 <section class="h-feed">
-    {{ range (.Paginate (.Site.Pages.GroupByDate "2006")).PageGroups }}
+    {{ range (.Paginate (.Site.Pages.GroupByDate "2006")).PageGroups 1 }}
     <h2>{{ .Key }}</h2>  {{/* This will be the year */}}
     <ul style="display:none">
         {{ range .Pages }}
