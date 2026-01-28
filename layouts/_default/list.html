@@ -1,8 +1,6 @@
 {{ define "main" }}
 <section class="h-feed">
-    {{- $list := where .Site.Pages ".Params.photos" "!=" nil -}}
-	{{- $len := (len $list) -}}
-	{{ range $index, $value := $list }}
+    {{ range where .Pages.ByDate.Reverse "Type" "post" }}
        <article class="h-entry {{ .Date.Format "2006" }}">
             {{ if .Title }}
                 <div>
@@ -24,11 +22,7 @@
                     </h1>
                 </div>
             {{ end }}
-            {{ if .Title }}
-                {{ .Content | safeHTML | strings.Truncate 900 }}
-            {{ else }}
-                {{ .Content }}
-            {{ end }}
+            {{ .Content }}
         </article>
     {{ end }}
 </section>

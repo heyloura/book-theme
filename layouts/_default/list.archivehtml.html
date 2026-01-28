@@ -22,7 +22,11 @@
                     </h1>
                 </div>
             {{ end }}
-            {{ .Content }}
+            {{ if .Title }}
+                {{ .Content | safeHTML | strings.Truncate 900 }}
+            {{ else }}
+                {{ .Content }}
+            {{ end }}
         </article>
     {{ end }}
 </section>
