@@ -13,7 +13,7 @@
             {{ end }}
         {{ end }}
 	{{ end }}
-    {{- $list := where .Site.Pages ".Params.photos" "!=" nil -}}
+    {{- $list := where .Site.Pages.ByDate.Reverse ".Params.photos" "!=" nil -}}
 	{{- $len := (len $list) -}}
 	{{ range $index, $value := $list }}
        <article class="h-entry {{ .Date.Format "2006" }}">
