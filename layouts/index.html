@@ -1,13 +1,15 @@
 {{ define "main" }}
 <nav class="hide-sm-flex top-left">
     <p><b>Blog Editions</b></p>
-    {{ $posts := where .Site.RegularPages "Type" "post" | sort "Date" "desc" }}
+    {{ $posts := where .Site.Pages "Type" "post" }}
     {{ $years := $posts.GroupByDate "2006" }}
     {{ range $years }}
         <a href="archive#{{ .Key }}">{{ .Key }}</a>
     {{ end }}
 </nav>
 <section class="h-feed">
+    {{ $withDate := where $posts "Date" "!=" nil }}
+    {{ $sorted := sort $withDate "Date" "desc" }}
     {{ if $posts }}
         {{ $mostRecentYear := $posts.First.Date.Format "2006" }}
         {{ $postsThisYear := where $posts "Date.Format \"2006\"" "eq" $mostRecentYear }}
