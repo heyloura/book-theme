@@ -550,6 +550,7 @@
         };
 
         document.querySelectorAll("article").forEach(a => {
+            book += currentPage ? currentPage.replace('^^front^^', '').replace('^^back^^', '') : '';
             currentPage = pageTemplate;
             front = true;
             back = false;
