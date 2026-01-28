@@ -27,6 +27,7 @@
                         {{ .Date.Format "02 Jan 2006" }}
                     </time>
                 </div>
+                {{ .Content }}
             {{ else }}
                 <div>
                     <h1 class="p-name">
@@ -36,9 +37,9 @@
                             </time>
                         </a>
                     </h1>
+                    {{ .Content }}
                 </div>
             {{ end }}
-            {{ .Content }}
         </article>
         {{ end }}
     {{ end }}
