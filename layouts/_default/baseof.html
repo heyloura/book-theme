@@ -271,7 +271,7 @@
             <progress></progress>
         </p>
     <p class="hide-sm-block top-center">
-            <b><a href="https://heyloura.com">heyloura.com</a>{{ if .Title }} <span aria-hidden="true"> |</span> {{ strings.FirstUpper .Title }}{{ end }}</b><br/>
+            <b><a href="https://heyloura.com">heyloura.com</a></b><br/>
             Click to open book or use arrow keys <span class="ctrl">↑</span><span class="ctrl">↓</span> to flip pages
         </p>
     <nav class="hide-sm-flex top-right">
@@ -296,7 +296,7 @@
 					{{ else if eq .Title "projects" }}
 					{{ else if eq .Permalink "https://heyloura.com/categories/micro-blog/" }}
 					{{ else }}
-					<a href="{{ .Permalink }}">{{ lower .Title }}</a>{{- if lt $idx $len -}},{{ end -}}
+					<a href="{{ .Permalink }}">{{ lower .Title }}</a>{{- if lt $idx $len -}}{{ end -}}
 					{{ end }}
 				{{ $idx = add $idx 1 }}
 			{{ end }}
@@ -401,7 +401,7 @@
     Prism.highlightAll();
 </script>
 <script>
-    if(localStorage.getItem('bookview') != "true") {
+    if(localStorage.getItem('bookview') && localStorage.getItem('bookview') != "true") {
         document.getElementById('hideBookView').remove();
         document.getElementById("loading").remove();
         document.querySelectorAll(".bookStyles").forEach(el => el.remove());
@@ -556,7 +556,7 @@
             <div class="book">
                 <div class="page">
                     <div class="front cover">
-                    <h1>heyloura.com</h1>
+                    <h1>{{ if .Title }} <span aria-hidden="true"> |</span> {{ strings.FirstUpper .Title }}{{ end }}</h1>
                     <p>2026.<br>Fourth edition</p>
                     </div>
                     <div class="back">
