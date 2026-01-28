@@ -40,7 +40,11 @@
                             </time>
                         </a>
                     </h1>
-                    {{ .Content }}
+                    {{ $truncatedContent := .Content | safeHTML | strings.Truncate 400 }}
+                    {{ $truncatedContent }}
+                    {{ if .Truncated }}
+                        <a href="{{ .Permalink }}#1" class="read-more">Read more</a>
+                    {{ end }}
                 </div>
             {{ end }}
         </article>
