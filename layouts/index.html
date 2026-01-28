@@ -15,7 +15,7 @@
 	{{ end }}
 
     
-    {{ range where .Site.Pages.ByDate.Reverse "Type" "post" }}
+    {{ range sort (where .Site.Pages.ByDate.Reverse "Type" "post") "Date" "asc" }}
         {{ if eq (.Date.Format "2006") ($.Scratch.Get "mostRecentYear") }}
         <article class="h-entry">
             {{ if .Title }}
