@@ -1,0 +1,26 @@
+{{ define "main" }}
+<nav class="hide-sm-flex top-left">
+    <!-- <p>
+        <a href="/photos">Photos</a><span aria-hidden="true"> |</span>
+        <a href="/search-space">Search</a><span aria-hidden="true"> |</span>
+        <a href="/archive">Archive</a>
+    </p> -->
+    <p><b>Blog Editions</b></p>
+    <a href="#">2026</a>
+    <a href="#">2025</a>
+    <a href="#">2024</a>
+    <a href="#">2023</a>
+    <a href="#">2022</a>
+</nav>
+<section class="h-feed">
+	{{ $list := (where .Site.Pages.ByDate.Reverse "Type" "post") }}
+	{{range $list}}
+		{{ if .Title }}
+			<article class="h-entry">
+				<time class="dt-published" datetime="{{ .Date.Format "2006-01-02 15:04:05 -0700" }}">{{ .Date.Format "2006-01-02" }}</time>: <a href="{{ .Permalink }}" class="u-url p-name">{{ .Title }}</a>
+            </article>
+		{{ else }}
+		{{ end }}
+	{{ end }}
+</section>
+{{ end }}

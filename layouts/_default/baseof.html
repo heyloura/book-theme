@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html id="html" lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width initial-scale=1">
+	<title>{{ .Site.Title }}</title>
+	<meta name="description" content="{{ .Summary }}">
+	<link rel="shortcut icon" href="https://micro.blog/{{ .Site.Author.username }}/favicon.png" type="image/x-icon" />
+	{{- with .OutputFormats.Get "RSS" -}}
+	<link rel="alternate" type="application/rss+xml" title="{{ $.Site.Title }}"	href="{{ .RelPermalink }}"/>
+	{{- with $.Site.Params.podcast_title }}
+	<link rel="alternate" type="application/rss+xml" title="{{ . }}"	href="{{ "podcast.xml" | absURL }}" />
+	{{ else }}
+	<link rel="alternate" type="application/rss+xml" title="Podcast" href="{{ "podcast.xml" | absURL }}" />
+	{{ end -}}
+	<link rel="alternate" type="application/json" title="{{ $.Site.Title }}" href="{{ "feed.json" | absURL }}" />
+	<link rel="EditURI" type="application/rsd+xml" href="{{ "rsd.xml" | absURL }}" />
+	{{- end -}}
+	<link rel="me" href="https://github.com/heyloura" />
+	<link rel="me" href="https://micro.blog/{{ .Site.Author.username }}" />
+	<link rel="authorization_endpoint" href="https://micro.blog/indieauth/auth" />
+	<link rel="token_endpoint" href="https://micro.blog/indieauth/token" />
+	<link rel="micropub" href="https://micro.blog/micropub" />
+	<link rel="microsub" href="https://micro.blog/microsub" />
+	<link rel="webmention" href="https://micro.blog/webmention" />
+	<link rel="subscribe" href="https://micro.blog/users/follow" />
+	<link rel="canonical" href="{{ .Permalink }}"> 
+	<script src="https://tinylytics.app/embed/ty-z3nCjHzz9nhTen2UU.js?hits&kudos" defer></script>
+	{{ range .Site.Params.plugins_css }}
+	<link rel="stylesheet" href="{{ . }}">
+	{{ end }}
+
+	{{ range $filename := .Site.Params.plugins_html }}
+	{{ partial $filename $ }}
+
+	{{ end }}
+	<link rel="stylesheet" href="/css/prism.css">
+    <style>
+        a { color: canvastext; text-decoration-style: dotted; text-decoration-thickness: .08em; text-underline-offset: 3px;}
+        @media screen and (max-width: 1023px) 
+        {
+            body
+            { 
+                color-scheme:light dark;
+                margin:auto;
+                max-width:min(100vw,70ch);
+                line-height:1.6;
+                font-family:'Helvetica Neue', Helvetica, Verdana, Arial, sans-serif;
+                font-size:18px;
+                color: color-mix(in hsl, gainsboro 13%, canvastext 87%);
+                background-color: color-mix(in hsl, gainsboro 7%, canvas 93%);
+                padding:1em;
+            }
+            h1,h2,h3,h4,h5,h6
+            {
+                line-height:1.2;
+                margin:2em 0 1em;
+                font-family:Georgia, Times, 'Times New Roman', serif;
+            }
+            .h-entry img, .h-entry video { max-width:100%; height:auto; }
+            a:visited { color: #cc27ee}
+            a:hover, a:focus, a:active { color: color-mix(in hsl, #1879f5, #cc27ee); }
+            footer { margin-top: 5em; }
+            header { margin-bottom: 3em; }
+            nav ul { padding: 0; list-style: none; }
+            iframe { width: 100%; min-height: 700px;}
+            textarea { max-width: 100%; }
+            table { overflow: scroll; white-space: nowrap; display: block;}
+        }
+
+        * { box-sizing: border-box; }
+    </style>
+    <style class="bookStyles">
+        .hide-sm-block,.hide-sm-flex  {
+            display: none !important;
+        }
+        @media screen and (min-width: 1023px) 
+        {
+            body {
+                color-scheme: light dark;
+                font: 1em/1.4 "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+                color: color-mix(in hsl, gainsboro 15%, canvastext 85%);
+                background-color: color-mix(in hsl, gainsboro 10%, canvas 90%);
+                font-size: 14px;
+            }
+            .hide-sm-block {
+                display: block !important;
+            }
+            .hide-sm-flex {
+                display: flex !important;
+            }
+            /* FlipBook */
+            body {
+                margin: 0;
+                display: flex;
+                min-height: 100dvh;
+                perspective: 1000px;
+                overflow: hidden;
+                font-size: 14px;
+            }
+
+            .book {
+                position: relative;
+                display: flex;
+                margin: auto;
+                /* width: 60cqmin; */
+                width: min(450px, 60cqmin);
+                /*1* let pointer event go trough pages of lower Z than .book */
+                pointer-events: none;
+                transform-style: preserve-3d;
+                transition: translate 1s;
+                translate: calc(min(var(--c), 1) * 50%) 0%;
+                /* Incline on the X axis for pages preview */
+                rotate: 1 0 0 30deg;
+            }
+
+            .page {
+                /* PS: Don't go below thickness 0.5 or the pages might transpare */
+                --thickness: 4;
+                flex: none;
+                display: flex;
+                width: 100%;
+                font-size: 12px;
+                /* font-size: 2.3cqmin; */
+                /*1* allow pointer events on pages */
+                pointer-events: all;
+                user-select: none;
+                transform-style: preserve-3d;
+                transform-origin: left center;
+                transition:
+                    transform 1s,
+                    rotate 1s ease-in calc((min(var(--i), var(--c)) - max(var(--i), var(--c))) * 50ms);
+                translate: calc(var(--i) * -100%) 0px 0px;
+                transform: translateZ( calc((var(--c) - var(--i) - 0.5) * calc(var(--thickness) * .23cqmin)));
+                rotate: 0 1 0 calc(clamp(0, var(--c) - var(--i), 1) * -180deg);
+            }
+
+            .front,
+            .back {
+                position: relative;
+                flex: none;
+                width: 100%;
+                backface-visibility: hidden;
+                overflow: hidden;
+                background-color: canvas;
+                /* Fix backface visibility Firefox: */
+                translate: 0px;
+            }
+
+            .back {
+                translate: -100% 0;
+                rotate: 0 1 0 180deg;
+            }
+
+
+            /* That's it. Your FlipBook customization styles: */
+            .book {
+            counter-reset: page -1;
+            & a {
+                color: inherit;
+            }
+            }
+
+            .page {
+                box-shadow: 0em .5em 1em -.2em #00000020;
+            }
+
+            .grid {
+                display: flex;
+                flex-flow: column wrap;
+                justify-content: space-between;
+            }
+
+            .front,
+            .back {
+                padding: 2em;
+                border: 1px solid #0002;
+                
+                &:has(img) {
+                    /* padding: 0; */
+                }
+                
+                & img {
+                    /* width: 100%;
+                    height: 100%;
+                    object-fit: cover; */
+                }
+                
+                &::after {
+                    position: absolute;
+                    bottom: 1em;
+                    counter-increment: page;
+                    content: counter(page) ".";
+                    font-size: 0.8em;
+                }
+            }
+            .cover {
+            &::after {
+                content: "";
+            }
+            }
+            .front {
+            &::after {
+                right: 1em;
+            }
+            background: linear-gradient(to left, color-mix(in hsl, gainsboro 5%, canvas 95%) 80%, canvas 100%);
+            border-radius: .1em .5em .5em .1em;
+            }
+            .back {
+            &::after {
+                left: 1em;
+            }
+            background-image: linear-gradient(to right, color-mix(in hsl, gainsboro 5%, canvas 95%) 80%, canvas 100%);
+            border-radius: .5em .1em .1em .5em;
+            }
+
+            .cover {
+                background: radial-gradient(circle farthest-corner at 80% 20%, hsl(150 80% 20% / .3) 0%, hsl(170 60% 10% / .1) 100%),
+                    hsl(231, 32%, 29%) url("https://cdn.uploads.micro.blog/88328/2026/img-20260119-091519.jpg") 50% / cover;
+                color: hsl(200 30% 98%);
+                display: flex;
+                flex-flow: column wrap;
+                justify-content: space-between;
+            }
+
+            .cover p {
+                text-shadow: 0 2px 3px canvas;
+            }
+
+            .top-center {
+                position: absolute;
+                display: block;
+                width: 100%;
+                text-align: center;
+            }
+            .top-left {
+                position: absolute;
+                margin: 1em;
+                display: flex;
+                flex-direction: column;
+                width: 25%;
+            }
+            .top-right {
+                position: absolute;
+                margin: 1em;
+                right: 0;
+                display: flex;
+                align-items: end;
+                flex-direction: column;
+                width: 25%;
+            }
+        }
+        @media screen and (min-width: 1499px) 
+        {
+            .book { 
+                scale: 1.3;
+                translate: calc(min(var(--c), 1) * 65%) 0%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <p id="loading" style="position: absolute;
+            display: block;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            padding: 10em;
+            text-align: center;
+            background-color: canvas;">
+            <progress></progress>
+        </p>
+    <p class="hide-sm-block top-center">
+            <b><a href="https://heyloura.com">heyloura.com</a>{{ if .Title }} <span aria-hidden="true"> |</span> {{ strings.FirstUpper .Title }}{{ end }}</b><br/>
+            Click to open book or use arrow keys <span class="ctrl">↑</span><span class="ctrl">↓</span> to flip pages
+        </p>
+    <nav class="hide-sm-flex top-right">
+        <p><b>Topics</b></p>
+        {{ $list := ($.Site.GetPage "taxonomyTerm" "categories").Pages }}
+		{{ $idx := 0 }}
+		{{ $len := sub (len $list) 1 }}
+		{{ if gt (len $list) 0 }}
+			{{ range $list }}
+					{{ $categoryTitle := .Title }}
+					{{ if eq .Title "meta-newsletter" }}
+					{{ else if eq .Title "timeline" }}
+					{{ else if eq .Title "meta-video" }}
+					{{ else if eq .Title "meta-toc" }}
+					{{ else if eq .Title "tags-ideas" }}
+					{{ else if eq .Title "meta-jots" }}
+					{{ else if eq .Title "tags-coding-adventure" }}
+					{{ else if eq .Title "tags-lillihub" }}
+					{{ else if eq .Title "meta-podcast" }}
+					{{ else if eq .Title "tags-hugo" }}
+					{{ else if eq .Title "app-defaults" }}
+					{{ else if eq .Title "projects" }}
+					{{ else if eq .Permalink "https://heyloura.com/categories/micro-blog/" }}
+					{{ else }}
+					<a href="{{ .Permalink }}">{{ lower .Title }}</a>{{- if lt $idx $len -}},{{ end -}}
+					{{ end }}
+				{{ $idx = add $idx 1 }}
+			{{ end }}
+		{{ end }}
+    </nav>
+    <p id="hideBookView" class="hide-sm-block" style="position: absolute;
+        display: block;
+        margin: 1em;
+        bottom: 0;">
+        <button onclick="localStorage.setItem('bookview',false);window.location.reload();">Remove book view</button>
+    </p>
+    <p id="showBookView" class="hide-sm-block" style="position: absolute;
+        display: block;
+        margin: 1em;
+        top: 1em;
+        left: 1em;">
+        <button onclick="localStorage.setItem('bookview',true);window.location.reload();">Show book view</button>
+    </p>
+    {{ block "main" . }}{{ end }}
+    <a style="display: none;" href="/" class="h-card" rel="me">Loura</a>
+<style class="bookStyles">
+    :root {
+        --mm: 3.7795275591px;
+        --grid-unit: calc(4 * var(--mm));
+    }
+    
+    @media screen and (min-width: 1023px) {
+        body {
+            perspective: 2000px;
+        }
+        .page, .book {
+            /* height: 90vh;
+            max-height: 90vh; */
+            height: min(600px, 85vh);
+            max-height: min(600px, 85vh);
+        }
+        .grid {
+            background-image: radial-gradient(color-mix(in hsl, lightblue 20%, canvas 80%) 0.9px, transparent 0);
+            background-size: var(--grid-unit) var(--grid-unit);
+            background-position: calc(var(--grid-unit) / 2) calc(var(--grid-unit) / 2);
+            height: min(550px, 80vh);
+            max-height: min(550px, 80vh);
+            overflow: hidden;
+        }
+        ol, ul {
+            max-height: min(550px, 80vh);
+            overflow: hidden;
+        }
+        .front > div > p:last-child, .back > div > p:last-child {
+            flex-grow: 1;
+        }
+
+        .back > div > p:last-child:after {
+            background-color: pink;
+            content: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20fill%3D%22%23000000%22%20version%3D%221.1%22%20id%3D%22Capa%5f1%22%20width%3D%22800px%22%20height%3D%22800px%22%20viewBox%3D%220%200%20421.943%20421.944%22%20xml%3Aspace%3D%22preserve%22%3E%0A%3Cg%3E%0A%09%3Cpath%20d%3D%22M418.054%2C273.641c-17.748-11.016-33.66-23.868-48.348-38.556c-4.896-4.896-13.464-1.225-13.464%2C5.508%20%20%20c0%2C5.508-0.612%2C11.016-0.612%2C16.523c-53.244%2C9.792-106.488%2C14.076-160.957%2C14.688c-45.9%2C1.224-107.712%2C6.12-149.328-15.912%20%20%20c-31.824-17.136-36.72-56.917-23.256-87.517c5.508-12.852%2C15.3-23.256%2C27.54-30.6c14.076-8.568%2C28.152-3.672%2C42.84-7.344%20%20%20c1.836-0.612%2C2.448-3.06%2C1.224-4.896c-22.644-23.868-62.424%2C3.672-77.112%2C23.256c-20.808%2C27.54-22.032%2C67.933-3.672%2C96.696%20%20%20c26.928%2C42.841%2C91.188%2C39.78%2C134.64%2C41.004c68.544%2C2.448%2C140.76%2C0.612%2C208.081-14.688c0%2C6.12%2C0.612%2C11.628%2C2.448%2C17.748%20%20%20c0%2C1.224%2C0.611%2C1.836%2C1.224%2C2.448c-4.896%2C4.283-0.612%2C15.3%2C7.956%2C13.464c17.748-3.672%2C35.496-9.181%2C52.02-17.136%20%20%20C423.562%2C284.657%2C422.338%2C276.701%2C418.054%2C273.641z%20M370.93%2C257.729c8.568%2C7.344%2C17.136%2C14.688%2C26.928%2C21.42%20%20%20c-8.567%2C3.672-17.748%2C6.12-26.928%2C8.568c0-0.612%2C0-1.225%2C0-2.448C369.094%2C276.089%2C369.706%2C266.909%2C370.93%2C257.729z%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E%3Csvg%2Fonload%3Dalert%281%29%3E);
+        }
+    }
+</style>
+<script src="/js/prism.js"></script>
+<script>
+    function wrapInner(parent, wrapper) {
+        if (typeof wrapper === "string")
+        wrapper = document.createElement(wrapper);
+        wrapper.classList.add("language-html");
+        
+        var div = parent.appendChild(wrapper);
+        
+        while(parent.firstChild !== wrapper)
+        wrapper.appendChild(parent.firstChild);
+    }
+    var pres = document.querySelectorAll('pre');
+    pres.forEach(function (pre, index) {
+        var hasCodeEl = false;
+        var hasCodeClass = false;
+        for (var i = 0; i < pre.children.length; i++) 
+        {
+            var child = pre.children[i];
+            if(child.nodeName == "CODE") 
+            {
+                hasCodeEl = true;
+            }
+        }
+        for (var j = 0; j < pre.classList.length; j++) 
+        {
+            console.log(pre.classList[j].indexOf('language-') );
+            if(pre.classList[j].indexOf('language-') > -1) 
+            {
+                hasCodeClass = true;
+            }
+        }
+        if(!hasCodeClass) 
+        {
+            console.log('need to add class');
+            pre.classList.add("language-html")
+        }
+        if(!hasCodeEl) 
+        {
+            
+            wrapInner(pre, "code");
+        }
+    });
+    Prism.highlightAll();
+</script>
+<script>
+    if(localStorage.getItem('bookview') != "true") {
+        document.getElementById('hideBookView').remove();
+        document.getElementById("loading").remove();
+        document.querySelectorAll(".bookStyles").forEach(el => el.remove());
+        document.body.insertAdjacentHTML('afterbegin',`
+        <style>
+            body
+            { 
+                color-scheme:light dark;
+                margin:auto;
+                max-width:min(100vw,70ch);
+                line-height:1.6;
+                font-family:'Helvetica Neue', Helvetica, Verdana, Arial, sans-serif;
+                font-size:18px;
+                color: color-mix(in hsl, gainsboro 13%, canvastext 87%);
+                background-color: color-mix(in hsl, gainsboro 7%, canvas 93%);
+                padding:1em;
+            }
+            h1,h2,h3,h4,h5,h6
+            {
+                line-height:1.2;
+                margin:2em 0 1em;
+                font-family:Georgia, Times, 'Times New Roman', serif;
+            }
+            .h-entry img, .h-entry video { max-width:100%; height:auto; }
+            a { color: #1879f5; text-decoration-style: dotted; text-decoration-thickness: .08em; text-underline-offset: 3px;}
+            a:visited { color: #cc27ee}
+            a:hover, a:focus, a:active { color: color-mix(in hsl, #1879f5, #cc27ee); }
+            footer { margin-top: 5em; }
+            header { margin-bottom: 3em; }
+            nav ul { padding: 0; list-style: none; }
+            iframe { width: 100%; min-height: 700px;}
+            textarea { max-width: 100%; }
+            table { overflow: scroll; white-space: nowrap; display: block;}    
+        </style>
+        `);
+    } else {
+        // This is the book view
+        document.getElementById('showBookView').remove();
+        // function vhToPx(vh) {
+        //     const viewportHeight = window.innerHeight;
+        //     const px = (viewportHeight / 100) * vh;
+        //     return px;
+        // }
+        // console.log(Math.min(450, vhToPx(20)))
+        // let size = Math.min(450, vhToPx(20));
+        size = 300;
+        var book = '';
+        var pageTemplate = `
+            <div class="page">
+                <div class="front">
+                    <div class="grid">
+                        {{front}}
+                    </div>
+                </div>
+                <div class="back">
+                    <div class="grid">
+                        {{back}}
+                    </div>
+                </div>
+            </div>
+        `;
+        let currentPage = pageTemplate;
+        let front = true;
+        let back = false;
+        let currentHeight = 0;
+        const makePages = (el) => {
+            console.log(el.nodeName, `current page: ${front ? 'front' : 'back'}`, el.scrollHeight, currentHeight);
+
+            // let's fill the front page
+            if(front) {
+                if(el.nodeName == 'TABLE' || el.nodeName == 'IMG' || el.nodeName == 'IFRAME') 
+                {
+                    // add it, but next thing is on back page
+                    // currentHeight += el.scrollHeight;
+                    // currentPage = currentPage.replace('{{front}}', el.outerHTML + '{{front}}');
+                    // front = false;
+                    // back = true;
+                    // currentHeight = 0;
+                    // return;
+                    front = false;
+                    back = true;
+                    currentHeight = 0;
+                } 
+                else if(currentHeight != 0 && (el.nodeName == 'H1' || el.nodeName == 'H2' || el.nodeName == 'H3' || el.nodeName == 'H4')) 
+                {
+                    // start it on the next page
+                    front = false;
+                    back = true;
+                    currentHeight = 0;
+                } else if(currentHeight + el.scrollHeight <= size) {
+                    // add it
+                    currentHeight += el.scrollHeight;
+                    currentPage = currentPage.replace('{{front}}', el.outerHTML + '{{front}}');
+                    return;
+                } else {
+                    // this is too big, add it to the back page
+                    front = false;
+                    back = true;
+                    currentHeight = 0;
+                }
+            }
+
+            if(back) {
+                // if(el.nodeName == 'TABLE' || el.nodeName == 'IMG' || el.nodeName == 'IFRAME') 
+                // {
+                //     // add it, but next thing is on front page
+                //     front = true;
+                //     back = false;
+                //     currentHeight = 0;
+                //     currentPage = currentPage.replace('{{back}}', el.outerHTML + '{{back}}');
+                //     book += currentPage.replace('{{front}}', '').replace('{{back}}', '');
+                //     currentPage = pageTemplate;
+                //     return;
+                // }
+                if(currentHeight + el.scrollHeight <= size) {
+                    if(currentHeight != 0 && (el.nodeName == 'H1' || el.nodeName == 'H2' || el.nodeName == 'H3' || el.nodeName == 'H4')) 
+                    {
+                        // start another page and add it to the new front page
+                        front = true;
+                        back = false;
+                        currentHeight = el.scrollHeight;
+                        book += currentPage.replace('{{front}}', '').replace('{{back}}', '');
+                        currentPage = pageTemplate.replace('{{front}}', el.outerHTML + '{{front}}');
+                        return;
+                    } else {
+                        // add it
+                        currentHeight += el.scrollHeight;
+                        currentPage = currentPage.replace('{{back}}', el.outerHTML + '{{back}}');
+                        return;
+                    }
+                } else {
+                    if(el.scrollHeight <= size * 1000) {
+                        // start another page and add it to the new front page
+                        front = true;
+                        back = false;
+                        currentHeight = el.scrollHeight;
+                        book += currentPage.replace('{{front}}', '').replace('{{back}}', '');
+                        currentPage = pageTemplate.replace('{{front}}', el.outerHTML + '{{front}}');
+                        return;
+                    }
+                    else {
+                        console.log('-------splitsville-----------');
+                    }
+                }
+            }
+        };
+        
+        document.querySelectorAll("article > *").forEach(makePages);
+        document.querySelectorAll("article > *").forEach(el => el.remove());
+        document.querySelectorAll("article").forEach(el => el.remove());
+        document.body.insertAdjacentHTML('beforeend',`
+            <div class="book">
+                <div class="page">
+                    <div class="front cover">
+                    <h1>heyloura.com</h1>
+                    <p>2026.<br>Fourth edition</p>
+                    </div>
+                    <div class="back">
+                    <h2>Credits</h2>
+                    <p>https://codepen.io/rokobuljan/pen/jORNEyz</p>
+                    </div>
+                </div>
+                ${book}
+                ${currentPage}
+            </div>
+            <style class="bookStyles">
+                @media screen and (min-width: 1023px) 
+                {
+                    .highlight, .highlight > pre, .highlight > pre > code {
+                        max-height: min(525px, 80vh) !important;
+                    }
+                    .highlight > pre, .highlight > pre > code {
+                        overflow: auto;
+                        max-height: min(525px, 80vh) !important;
+                        max-width: min(450px, 100%)!important;
+                    }
+                    img {    
+                        height: unset;
+                        width: 100%;
+                        max-width: min(450px, 100%);
+                        max-height: min(525px, 80vh);
+                        display: block;
+                        margin: 0px auto;
+                    }
+                    iframe, table {    
+                        height: min(550px, 80vh);
+                        width: 100%;
+                        max-width: min(450px, 100%);
+                        max-height: min(525px, 80vh);
+                        display: block;
+                        margin: 0px auto;
+                    }
+                }
+            </style>`);
+
+        document.getElementById("loading").remove();
+
+        const flipBook = (elBook) => {
+            elBook.style.setProperty("--c", window.location.hash ? parseInt(window.location.hash.replace('#','')) : 0); // Set current page
+            elBook.querySelectorAll(".page").forEach((page, idx) => {
+                page.style.setProperty("--i", idx);
+                page.addEventListener("click", (evt) => {
+                if (evt.target.closest("a")) return;
+                    const curr = evt.target.closest(".back") ? idx : idx + 1;
+                    window.location.hash = curr;
+                    elBook.style.setProperty("--c", curr);
+                });    
+            });
+        };
+
+        document.querySelectorAll(".book").forEach(flipBook);
+    }
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowUp') {
+            const curr = window.location.hash ? Math.max(parseInt(window.location.hash.replace('#','')) - 1, 0) : 0;
+            document.querySelector(".book").style.setProperty("--c", curr);
+            window.location.hash = curr;
+            console.log('Up arrow key pressed!');
+        } else if (event.key === 'ArrowDown') {
+            const curr =  window.location.hash ? Math.min(parseInt(window.location.hash.replace('#','')) + 1, document.querySelector(".book").querySelectorAll(".page").length) : 0;
+            window.location.hash = curr;
+            console.log('Down arrow key pressed!');
+        }
+    });
+    window.addEventListener("hashchange", () => {
+        document.querySelector(".book").style.setProperty("--c", parseInt(window.location.hash.replace('#','')));
+    });
+</script>
+</body>
+</html>
