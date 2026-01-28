@@ -13,11 +13,11 @@
         {{ end }}
     </ul>
     {{ end }}
-    {{ if .Paginator.HasPrev }}
-        <a href="{{ .Paginator.Prev.URL }}">Previous Year</a>
+    {{ if $paginated.HasPrev }}
+    <a href="{{ $paginated.Prev.URL }}">Previous Year</a>
     {{ end }}
-    {{ if .Paginator.HasNext }}
-        <a href="{{ .Paginator.Next.URL }}">Next Year</a>
+    {{ if $paginated.HasNext }}
+    <a href="{{ $paginated.Next.URL }}">Next Year</a>
     {{ end }}
 </section>
 {{ end }}
