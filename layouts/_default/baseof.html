@@ -440,6 +440,9 @@
     Prism.highlightAll();
 </script>
 <script>
+    document.querySelectorAll('img').forEach(img => {
+        img.loading = 'lazy';
+    });
     if(localStorage.getItem('bookview') && localStorage.getItem('bookview') != "true") {
         document.getElementById('hideBookView').remove();
         document.getElementById("loading").remove();
