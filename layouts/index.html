@@ -1,7 +1,7 @@
 {{ define "main" }}
 <nav class="hide-sm-flex top-left">
     <p><b>Blog Editions</b></p>
-    {{ $posts := where .Site.RegularPages "Section" "posts" }}
+    {{ $posts := where .Site.Pages "Type" "post" }}
     {{ $years := $posts.GroupByDate "2006" }}
     {{ range $years }}
         <a href="archive#{{ .Key }}">{{ .Key }}</a>
@@ -11,11 +11,15 @@
     {{ $grouped := .Site.Pages.GroupByDate "2006" }}
     {{ $paginated := .Paginate $grouped 1 }}
     {{ range $paginated.PageGroups }}
-    <ul style="display:none">
         {{ range .Pages }}
-        <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+        <article class="h-entry">
+            <h1 class="p-name"><a class="u-url" href="{{ .Permalink }}">{{ if .Title }}{{ .Title }}{{ else }}{{ .Date.Format "2 Jan 06" }}{{ end }}</a></h1>
+            <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
+                {{ .Date.Format "02 Jan 2006" }}
+            </time>
+            {{ .Content }}
+        </article>
         {{ end }}
-    </ul>
     {{ end }}
 </section>
 {{ end }}
