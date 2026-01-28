@@ -288,8 +288,17 @@
             Click to open book or use arrow keys <span class="ctrl">↑</span><span class="ctrl">↓</span> to flip pages
         </p>
     <nav class="hide-sm-flex top-left">
-        <a href="/photos/#1">photos</a>
-        <p><b>Blog Editions</b></p>
+        <p><b>Photo albums</b></p>
+        {{ $posts := where .Site.Pages "Type" "post" }}
+        {{ $years := $posts.GroupByDate "2006" }}
+        {{ $.Scratch.Set "mostRecentYear" 0 }}
+        {{ range $index, $element := $years }}
+            {{ if eq $index 0 }}
+                {{ $.Scratch.Set "mostRecentYear" $element.Key }}
+            {{ end }}
+            <a href="/photos/?year={{ $element.Key }}#1">{{ $element.Key }}</a>
+        {{ end }}
+        <p><b>Archives</b></p>
         {{ $posts := where .Site.Pages "Type" "post" }}
         {{ $years := $posts.GroupByDate "2006" }}
         {{ $.Scratch.Set "mostRecentYear" 0 }}
