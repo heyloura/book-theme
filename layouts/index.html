@@ -12,7 +12,7 @@
     {{ end }}
 </nav>
 <section class="h-feed">
-    {{ range $posts }}
+    {{ range where .Site.Pages "Type" "post" }}
         {{ if eq (.Date.Format "2006") ($.Scratch.Get "mostRecentYear") }}
         <article class="h-entry">
             <h1 class="p-name"><a class="u-url" href="{{ .Permalink }}">{{ if .Title }}{{ .Title }}{{ else }}{{ .Date.Format "2 Jan 06" }}{{ end }}</a></h1>
