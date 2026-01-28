@@ -6,13 +6,10 @@
         <a href="/archive">Archive</a>
     </p> -->
     <p><b>Blog Editions</b></p>
-    {{ range (.Site.Pages.GroupByDate "2006").PageGroups  }}
-        <a href="#">{{.Key}}</a>
-    {{end}}
 </nav>
 <section class="h-feed">
     {{ $currentYear := now.Format "2006" }}
-    {{ $allPosts := where .Site.RegularPages "Section" "posts" }}
+    {{ $allPosts := .Site.Pages }}
     {{ $sortedPosts := sort $allPosts "Date" "desc" }}
 
     {{ $currentYearPosts := where $sortedPosts "Date.Format \"2006\"" "eq" $currentYear }}
