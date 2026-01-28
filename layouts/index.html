@@ -19,7 +19,7 @@
         {{ if eq (.Date.Format "2006") ($.Scratch.Get "mostRecentYear") }}
         <article class="h-entry">
             {{ if .Title }}
-                <div>
+                <div class="post">
                     <h1 class="p-name">
                         <a class="u-url" href="{{ .Permalink }}">{{ .Title }}</a>
                     </h1>
@@ -27,9 +27,13 @@
                         {{ .Date.Format "02 Jan 2006" }}
                     </time>
                 </div>
-                {{ .Content | safeHTML | strings.Truncate 300 }}
+                {{ $truncatedContent := .Content | safeHTML | strings.Truncate 300 }}
+                {{ $truncatedContent }}
+                {{ if .Truncated }}
+                    <a href="{{ .Permalink }}" class="read-more">Read more</a>
+                {{ end }}
             {{ else }}
-                <div>
+                <div class="post">
                     <h1 class="p-name">
                         <a class="u-url" href="{{ .Permalink }}">
                             <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">

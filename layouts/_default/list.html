@@ -16,16 +16,21 @@
     {{ range where .Pages.ByDate.Reverse "Type" "post" }}
        <article class="h-entry {{ .Date.Format "2006" }}">
             {{ if .Title }}
-                <div>
+                <div class="post">
                     <h1 class="p-name">
                         <a class="u-url" href="{{ .Permalink }}">{{ .Title }}</a>
                     </h1>
                     <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
                         {{ .Date.Format "02 Jan 2006" }}
                     </time>
+                    {{ $truncatedContent := .Content | safeHTML | strings.Truncate 300 }}
+                    {{ $truncatedContent }}
+                    {{ if .Truncated }}
+                        <a href="{{ .Permalink }}" class="read-more">Read more</a>
+                    {{ end }}
                 </div>
             {{ else }}
-                <div>
+                <div class="post">
                     <h1 class="p-name">
                         <a class="u-url" href="{{ .Permalink }}">
                             <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
@@ -33,9 +38,9 @@
                             </time>
                         </a>
                     </h1>
+                    {{ .Content }}
                 </div>
             {{ end }}
-            {{ .Content }}
         </article>
     {{ end }}
 </section>
