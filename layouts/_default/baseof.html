@@ -550,7 +550,7 @@
         };
 
         document.querySelectorAll("article").forEach(a => {
-            book += currentPage ? currentPage.replace('^^front^^', '').replace('^^back^^', '') : '';
+            book += currentPage != pageTemplate ? currentPage.replace('^^front^^', '').replace('^^back^^', '') : '';
             currentPage = pageTemplate;
             front = true;
             back = false;
@@ -558,7 +558,6 @@
             a.querySelectorAll(":scope > *").forEach(makePages);
         });
         
-        //document.querySelectorAll("article > *").forEach(makePages);
         document.querySelectorAll("article > *").forEach(el => el.remove());
         document.querySelectorAll("article").forEach(el => el.remove());
         document.body.insertAdjacentHTML('beforeend',`
