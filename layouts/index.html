@@ -1,6 +1,17 @@
 {{ define "main" }}
 <section class="h-feed">
     {{ range where .Site.Pages "Type" "post" }}
+        {{ $firstImage := "" }}
+        {{ $matches := findRE "<img[^>]+src=[\"']([^\"']+)[\"'][^>]*>" .Content 1 }}
+        {{ if $matches }}
+            {{ $firstImage = index (findRE "src=[\\\"]([^\\\"]+)[\\\"]" $matches._ 1 1) 0 | replaceRE "^src=[\\\"]|\\[\\\"]$" "" }}
+            <style>
+                .cover {
+                    background: radial-gradient(circle farthest-corner at 80% 20%, hsl(150 80% 20% / .3) 0%, hsl(170 60% 10% / .1) 100%),
+                        hsl(231, 32%, 29%) url("{{ $firstImage }}") 50% / cover;
+                }
+            </style>
+        {{ end }}
         {{ if eq (.Date.Format "2006") ($.Scratch.Get "mostRecentYear") }}
         <article class="h-entry">
             {{ if .Title }}
