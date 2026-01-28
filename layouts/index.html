@@ -25,9 +25,9 @@
     <!-- Paginate older posts by year -->
     {{ $olderPosts := where $sortedPosts "Date.Format \"2006\"" "lt" $currentYear }}
     {{ $grouped := $olderPosts.GroupByDate "2006" }}
-    {{ $paginated := .Paginate $grouped 1 }} <!-- One year per page -->
+    {{ $paginated := (.Paginate ($olderPosts.GroupByDate "2006")).PageGroups 1 }} <!-- One year per page -->
 
-    {{ range $paginated.PageGroups }}
+    {{ range $paginated }}
         <h2>{{ .Key }}</h2>
         <ul>
         {{ range .Pages }}
