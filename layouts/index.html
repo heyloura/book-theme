@@ -11,7 +11,7 @@
     {{ $withDate := where $posts "Date" "!=" nil }}
     {{ $sorted := sort $withDate "Date" "desc" }}
     {{ if $sorted }}
-        {{ $mostRecentYear := $sorted.First.Date.Format "2006" }}
+        {{ $mostRecentYear := ( $sorted | first 1 ).First.Date.Format "2006" }}
         {{ $postsThisYear := where $sorted "Date.Format \"2006\"" "eq" $mostRecentYear }}
         {{ range $postsThisYear }}
             <article class="h-entry">
