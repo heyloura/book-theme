@@ -12,9 +12,8 @@
     {{ end }}
 </nav>
 <section class="h-feed">
-    {{ $.Scratch.Get "mostRecentYear" }}
-    {{ $postsThisYear := where $posts "Date.Format \"2006\"" "eq" ($.Scratch.Get "mostRecentYear") }}
-    {{ range $postsThisYear }}
+    {{ range $posts }}
+        {{ if eq (.Date.Format "2006") ($.Scratch.Get "mostRecentYear") }}
         <article class="h-entry">
             <h1 class="p-name"><a class="u-url" href="{{ .Permalink }}">{{ if .Title }}{{ .Title }}{{ else }}{{ .Date.Format "2 Jan 06" }}{{ end }}</a></h1>
             <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
@@ -22,6 +21,7 @@
             </time>
             {{ .Content }}
         </article>
+        {{ end }}
     {{ end }}
 </section>
 {{ end }}
