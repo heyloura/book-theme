@@ -5,11 +5,17 @@
 <section class="h-feed">
     {{ range (.Paginate (.Site.Pages.GroupByDate "2006")).PageGroups }}
     <h2>{{ .Key }}</h2>  {{/* This will be the year */}}
-    <ul>
+    <ul style="display:none">
         {{ range .Pages }}
         <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
         {{ end }}
     </ul>
+    {{ end }}
+    {{ if .Paginator.HasPrev }}
+        <a href="{{ .Paginator.Prev.URL }}">Previous Year</a>
+    {{ end }}
+    {{ if .Paginator.HasNext }}
+        <a href="{{ .Paginator.Next.URL }}">Next Year</a>
     {{ end }}
 </section>
 {{ end }}
