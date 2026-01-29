@@ -683,7 +683,7 @@
         document.getElementById("loading").remove();
 
         const flipBook = (elBook) => {
-            elBook.style.setProperty("--c", window.location.hash ? parseInt(window.location.hash.replace('#','')) : 0); // Set current page
+            elBook.style.setProperty("--c", window.location.hash ? parseInt(window.location.hash.replace('#','')) : elBook.querySelectorAll(".page").length); // Set current page
             elBook.querySelectorAll(".page").forEach((page, idx) => {
                 page.style.setProperty("--i", idx);
                 page.addEventListener("click", (evt) => {
