@@ -659,7 +659,9 @@
                     <div class="front">
                         {{ $category := .Title }}
                         {{ range .Site.Pages }}
-                         {{.Params.Title}}
+                        {{- if in .Params.Navigation "false"}}
+                         {{(lower .Params.Title)}}
+                        {{end}}
                         {{- if and (in .Params.Navigation "false") (eq (lower .Params.Title) "about")}}
                         <div>
                             {{ .Content }}
