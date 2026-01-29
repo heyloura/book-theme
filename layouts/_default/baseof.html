@@ -659,10 +659,10 @@
                     <div class="front">
                         {{ $category := .Title }}
                         {{ range .Site.Pages }}
-                        {{- if in .Params.Navigation "false"}}
+                        {{- if in .Params.Navigation "true"}}
                          {{(lower .Params.Title)}}
                         {{end}}
-                        {{- if and (in .Params.Navigation "false") (eq (lower .Params.Title) "about")}}
+                        {{- if and (in .Params.Navigation "true") (eq (lower .Params.Title) "about")}}
                         <div>
                             {{ .Content }}
                         </div>
