@@ -596,17 +596,17 @@
         const searchParams = new URLSearchParams(window.location.search);
         let year = searchParams.get("year")
         document.querySelectorAll("article").forEach(a => {
-            if(currentPage != pageTemplate && front) {
-                front = false;
-                back = true;
-                currentHeight = 0;
-            } else {
-                book += currentPage != pageTemplate ? currentPage.replace('^^front^^', '').replace('^^back^^', '') : '';
-                currentPage = pageTemplate;
-                front = true;
-                back = false;
-                currentHeight = 0;
-            }
+            // if(currentPage != pageTemplate && front) {
+            //     front = false;
+            //     back = true;
+            //     currentHeight = 0;
+            // } else {
+            //     book += currentPage != pageTemplate ? currentPage.replace('^^front^^', '').replace('^^back^^', '') : '';
+            //     currentPage = pageTemplate;
+            //     front = true;
+            //     back = false;
+            //     currentHeight = 0;
+            // }
             if(year) {
                 if(a.classList.contains(year)) {
                     a.querySelectorAll(":scope > *").forEach(makePages);
