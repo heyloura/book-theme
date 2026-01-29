@@ -57,7 +57,7 @@
                 margin:2em 0 1em;
                 font-family:Georgia, Times, 'Times New Roman', serif;
             }
-            .h-entry img, .h-entry video { max-width:100%; height:auto; }
+            img, video { max-width:100%; height:auto; }
             a:visited { color: #cc27ee}
             a:hover, a:focus, a:active { color: color-mix(in hsl, #1879f5, #cc27ee); }
             footer { margin-top: 5em; }
@@ -442,9 +442,9 @@
     Prism.highlightAll();
 </script>
 <script>
-    document.querySelectorAll('img').forEach(img => {
-        img.loading = 'lazy';
-    });
+    // document.querySelectorAll('img').forEach(img => {
+    //     img.loading = 'lazy';
+    // });
     if(localStorage.getItem('bookview') && localStorage.getItem('bookview') != "true") {
         document.getElementById('hideBookView').remove();
         document.getElementById("loading").remove();
