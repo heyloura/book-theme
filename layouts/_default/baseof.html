@@ -638,12 +638,35 @@
                         <a href="https://xn--sr8hvo.ws">🕸️💍</a> 
                         <a href="https://xn--sr8hvo.ws/%F0%9F%91%8D%F0%9F%93%8A%F0%9F%92%85/next">→</a>
                     </p>
+                    {{ $category := .Title }}
+                    {{ range .Site.Pages }}
+                        {{- if and (in .Params.Navigation "false") (eq (lower .Params.Title) (lower $category))}}
+                        <div>
+                            {{ .Content }}
+                        </div>
+                        {{- end}}
+                    {{ end }} 
                     <h2>Credits</h2>
                     <p>Page flip adapted from code by Roko C. Buljan, <a href="https://codepen.io/rokobuljan/pen/jORNEyz">@rokobuljan</a></p>
                     </div>
                 </div>
                 ${book}
                 ${currentPage.replace('^^front^^', '').replace('^^back^^', '')}
+                <div class="page hide-sm-flex">
+                    <div class="front">
+                        {{ $category := .Title }}
+                        {{ range .Site.Pages }}
+                        {{- if and (in .Params.Navigation "false") (eq (lower .Params.Title) "about")}}
+                        <div>
+                            {{ .Content }}
+                        </div>
+                        {{- end}}
+                        {{ end }}    
+                    </div>
+                    <div class="back">
+                        <p>Thanks for visiting!</p>    
+                    </div>
+                </div>
             </div>
             <style class="bookStyles">
                 @media screen and (min-width: 1023px) 
