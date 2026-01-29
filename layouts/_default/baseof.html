@@ -630,24 +630,27 @@
                     <p>© {{ dateFormat "2006" now }} heyloura.com</p>
                     </div>
                     <div class="back">
-                    <p>
-                        All rights reserved.    <br/>
-                        <a href="https://heyloura.com/feeds">RSS</a><br/> 
-                        <a href="https://tinylytics.app/public/k8W9_T_FtwGM-5zeSNC7"><span class="tinylytics_hits"></span> tinylytics</a>   <br/>
-                        <a href="https://xn--sr8hvo.ws/%F0%9F%91%8D%F0%9F%93%8A%F0%9F%92%85/previous">←</a>
-                        <a href="https://xn--sr8hvo.ws">🕸️💍</a> 
-                        <a href="https://xn--sr8hvo.ws/%F0%9F%91%8D%F0%9F%93%8A%F0%9F%92%85/next">→</a>
-                    </p>
                     {{ $category := .Title }}
                     {{ range .Site.Pages }}
                         {{- if and (in .Params.Navigation "false") (eq (lower .Params.Title) (lower $category))}}
                         <div>
+                            <h2>{{.Params.Title}}</h2>
                             {{ .Content }}
                         </div>
                         {{- end}}
                     {{ end }} 
-                    <h2>Credits</h2>
-                    <p>Page flip adapted from code by Roko C. Buljan, <a href="https://codepen.io/rokobuljan/pen/jORNEyz">@rokobuljan</a></p>
+                    <div>
+                        <h2>Credits</h2>
+                        <p>
+                            All rights reserved.    <br/>
+                            <a href="https://heyloura.com/feeds">RSS</a><br/> 
+                            <a href="https://tinylytics.app/public/k8W9_T_FtwGM-5zeSNC7"><span class="tinylytics_hits"></span> tinylytics</a>   <br/>
+                            <a href="https://xn--sr8hvo.ws/%F0%9F%91%8D%F0%9F%93%8A%F0%9F%92%85/previous">←</a>
+                            <a href="https://xn--sr8hvo.ws">🕸️💍</a> 
+                            <a href="https://xn--sr8hvo.ws/%F0%9F%91%8D%F0%9F%93%8A%F0%9F%92%85/next">→</a>
+                        </p>
+                        <p>Page flip adapted from code by Roko C. Buljan, <a href="https://codepen.io/rokobuljan/pen/jORNEyz">@rokobuljan</a></p>
+                    </div>
                     </div>
                 </div>
                 ${book}
@@ -656,6 +659,7 @@
                     <div class="front">
                         {{ $category := .Title }}
                         {{ range .Site.Pages }}
+                         {{.Params.Title}}
                         {{- if and (in .Params.Navigation "false") (eq (lower .Params.Title) "about")}}
                         <div>
                             {{ .Content }}
