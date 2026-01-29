@@ -492,13 +492,6 @@
     } else {
         // This is the book view
         document.getElementById('showBookView').remove();
-        // function vhToPx(vh) {
-        //     const viewportHeight = window.innerHeight;
-        //     const px = (viewportHeight / 100) * vh;
-        //     return px;
-        // }
-        // console.log(Math.min(450, vhToPx(20)))
-        // let size = Math.min(450, vhToPx(20));
         size = 300;
         var book = '';
         var pageTemplate = `
@@ -543,7 +536,7 @@
                     front = false;
                     back = true;
                     currentHeight = 0;
-                } else if(currentHeight + el.scrollHeight <= size) {
+                } else if(currentHeight == 0 || (currentHeight + el.scrollHeight <= size)) {
                     // add it
                     currentHeight += el.scrollHeight;
                     currentPage = currentPage.replace('^^front^^', el.outerHTML + '^^front^^');
@@ -568,7 +561,7 @@
                 //     currentPage = pageTemplate;
                 //     return;
                 // }
-                if(currentHeight + el.scrollHeight <= size) {
+                if(currentHeight == 0 || (currentHeight + el.scrollHeight <= size)) {
                     if(currentHeight != 0 && (el.nodeName == 'H1' || el.nodeName == 'H2' || el.nodeName == 'H3' || el.nodeName == 'H4')) 
                     {
                         // start another page and add it to the new front page
@@ -647,7 +640,7 @@
                     </div>
                 </div>
                 ${book}
-                ${currentPage}
+                ${currentPage.replace('^^front^^', '').replace('^^back^^', '')}
             </div>
             <style class="bookStyles">
                 @media screen and (min-width: 1023px) 
