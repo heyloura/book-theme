@@ -714,6 +714,17 @@
             elBook.style.setProperty("--c", window.location.hash ? parseInt(window.location.hash.replace('#','')) : 0); // Set current page
             elBook.querySelectorAll(".page").forEach((page, idx) => {
                 page.style.setProperty("--i", idx);
+                // Ensure it's focusable
+                page.setAttribute('tabindex', '0');
+
+                // Listen for keydown events
+                page.addEventListener('keydown', function(event) {
+                    if (event.key === 'Tab') {
+                        const curr = evt.target.closest(".back") ? idx : idx + 1;
+                        window.location.hash = curr;
+                        elBook.style.setProperty("--c", curr);
+                    }
+                });
                 page.addEventListener("click", (evt) => {
                     if (evt.target.closest("a")) return;
                     if (evt.target.closest("button")) return;
