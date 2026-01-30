@@ -460,7 +460,9 @@
     if(localStorage.getItem('bookview') && localStorage.getItem('bookview') != "true") {
         document.getElementById('hideBookView').remove();
         document.getElementById("loading").remove();
-        document.querySelectorAll(".flip-bookStyles").forEach(el => el.remove());
+        document.querySelectorAll(".bookStyles").forEach(el => el.remove());
+        document.querySelectorAll(".hide-sm-block").forEach(el => el.remove());
+        document.querySelectorAll(".hide-sm-flex").forEach(el => el.remove());
         document.body.insertAdjacentHTML('afterbegin',`
         <style>
             body

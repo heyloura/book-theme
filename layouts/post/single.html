@@ -1,4 +1,11 @@
 {{ define "main" }}
+<style>   
+    .back:not(:first-child):not(:last-child)::after {
+        content: '';
+        background-image: url('https://heyloura.com/uploads/2026/turn-right-arrow-svgrepo-com.svg');
+        display: block; 
+    }
+</style>
 <article class="h-entry">
     {{ if .Title }}
         <div>
