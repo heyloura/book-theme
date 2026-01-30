@@ -71,7 +71,7 @@
         * { box-sizing: border-box; }
     </style>
     <style class="bookStyles">
-        .hide-sm-block,.hide-sm-flex  {
+        .hide-sm-block,.hide-sm-flex, .hide-sm-special  {
             display: none !important;
         }
         .hide-lg-block  {
@@ -354,7 +354,7 @@
         bottom: 0;">
         <button onclick="localStorage.setItem('bookview',false);window.location.reload();">Remove book view</button>
     </p>
-    <p id="showBookView" class="hide-sm-block" style="position: absolute;
+    <p id="showBookView" class="hide-sm-special" style="position: absolute;
         display: block;
         margin: 1em;
         top: 1em;
