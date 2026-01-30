@@ -720,7 +720,7 @@
                 // Listen for keydown events
                 page.addEventListener('keydown', function(event) {
                     if (event.key === 'Tab') {
-                        const curr = evt.target.closest(".back") ? idx : idx + 1;
+                        const curr = event.target.closest(".back") ? idx : idx + 1;
                         window.location.hash = curr;
                         elBook.style.setProperty("--c", curr);
                     }
